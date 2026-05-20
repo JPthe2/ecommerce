@@ -1,0 +1,151 @@
+{% extends 'layout.html' %}
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block content %}
+<div class="py-5" style="background:#f8f9fa;">
+    <div class="container">
+
+        <nav style="margin-bottom:24px;">
+            <span style="font-size:13px;color:#adb5bd;">
+                <a href="{% url 'product_list' %}" style="color:#adb5bd;text-decoration:none;">Home</a> /
+                <a href="{% url 'category_detail' product.category.id %}" style="color:#adb5bd;text-decoration:none;">{{ product.category.name }}</a> /
+                <span style="color:#2d2d2d;">{{ product.name }}</span>
+            </span>
+        </nav>
+
+        <div class="row g-5">
+            <div class="col-lg-5">
+                <div style="background:white;border-radius:16px;padding:40px;text-align:center;box-shadow:var(--card-shadow);">
+                    {% if product.image_url %}
+                        <img src="{{ product.image_url }}" alt="{{ product.name }}" style="max-width:100%;max-height:350px;object-fit:contain;">
+                    {% elif product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}" style="max-width:100%;max-height:350px;object-fit:contain;">
+                    {% else %}
+                        <div style="font-size:10rem;">
+                            {% if product.category.name == 'Headphones' %}🎧
+                            {% elif product.category.name == 'Smartphones' %}📱
+                            {% elif product.category.name == 'Laptops' %}💻
+                            {% elif product.category.name == 'Gaming' %}🎮
+                            {% elif product.category.name == 'Wearables' %}⌚
+                            {% elif product.category.name == 'Speakers' %}🔊
+                            {% elif product.category.name == 'VR & AR' %}🥽
+                            {% else %}📦{% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+                {% if product.image_url %}
+                <div class="d-flex gap-2 mt-3 justify-content-center">
+                    {% for i in "123" %}
+                    <div style="width:70px;height:70px;background:white;border-radius:8px;border:2px solid {% if forloop.first %}var(--primary){% else %}#e9ecef{% endif %};overflow:hidden;">
+                        <img src="{{ product.image_url }}" alt="" style="width:100%;height:100%;object-fit:cover;">
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="col-lg-7">
+                <div style="background:white;border-radius:16px;padding:36px;box-shadow:var(--card-shadow);">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <span style="background:#fff3f3;color:var(--primary);font-size:12px;font-weight:600;padding:4px 12px;border-radius:20px;text-transform:uppercase;">{{ product.category.name }}</span>
+                        {% if product.stock > 0 %}
+                        <span style="background:#f0fff4;color:#27ae60;font-size:12px;font-weight:600;padding:4px 12px;border-radius:20px;">✓ In Stock</span>
+                        {% else %}
+                        <span style="background:#fff3f3;color:var(--primary);font-size:12px;font-weight:600;padding:4px 12px;border-radius:20px;">Out of Stock</span>
+                        {% endif %}
+                    </div>
+
+                    <h1 style="font-size:1.8rem;font-weight:700;color:#1a1a2e;margin-bottom:12px;">{{ product.name }}</h1>
+
+                    <div class="d-flex align-items-center gap-2 mb-16" style="margin-bottom:16px;">
+                        <div style="color:#f39c12;font-size:16px;">★★★★★</div>
+                        <span style="font-size:13px;color:#6c757d;">(4.8/5 &mdash; 128 reviews)</span>
+                    </div>
+
+                    <div class="d-flex align-items-baseline gap-3 mb-4" style="padding:16px 0;border-top:1px solid #f0f0f0;border-bottom:1px solid #f0f0f0;">
+                        <span style="font-size:2.2rem;font-weight:800;color:var(--primary);">${{ product.price }}</span>
+                        {% if product.original_price %}
+                        <span style="font-size:1.2rem;color:#adb5bd;text-decoration:line-through;">${{ product.original_price }}</span>
+                        <span style="background:#27ae60;color:white;font-size:12px;font-weight:700;padding:4px 10px;border-radius:20px;">Save {{ product.discount_percentage }}%</span>
+                        {% endif %}
+                    </div>
+
+                    <p style="color:#555;font-size:15px;line-height:1.8;margin-bottom:24px;">{{ product.description }}</p>
+
+                    <div class="row g-3 mb-24" style="margin-bottom:24px;">
+                        <div class="col-6">
+                            <div style="background:#f8f9fa;border-radius:10px;padding:12px 16px;">
+                                <div style="font-size:11px;color:#adb5bd;text-transform:uppercase;letter-spacing:0.5px;">Category</div>
+                                <div style="font-weight:600;color:#1a1a2e;font-size:14px;">{{ product.category.name }}</div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div style="background:#f8f9fa;border-radius:10px;padding:12px 16px;">
+                                <div style="font-size:11px;color:#adb5bd;text-transform:uppercase;letter-spacing:0.5px;">Availability</div>
+                                <div style="font-weight:600;color:{% if product.stock > 0 %}#27ae60{% else %}var(--primary){% endif %};font-size:14px;">{{ product.stock }} units</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-3 flex-wrap">
+                        <a href="{% url 'cart_add' product.id %}" style="background:var(--primary);color:white;border-radius:8px;padding:14px 32px;font-weight:600;font-size:15px;text-decoration:none;display:inline-flex;align-items:center;gap:8px;">
+                            <i class="bi bi-bag-plus"></i> Add to Cart
+                        </a>
+                        <a href="{% url 'product_list' %}" style="background:transparent;color:#1a1a2e;border:2px solid #e9ecef;border-radius:8px;padding:12px 28px;font-weight:600;font-size:15px;text-decoration:none;display:inline-flex;align-items:center;gap:8px;">
+                            <i class="bi bi-arrow-left"></i> Back to Shop
+                        </a>
+                    </div>
+
+                    <div class="d-flex gap-4 mt-4 flex-wrap">
+                        <div style="font-size:12px;color:#6c757d;display:flex;align-items:center;gap:6px;">
+                            <i class="bi bi-truck" style="color:var(--primary);"></i> Free Shipping
+                        </div>
+                        <div style="font-size:12px;color:#6c757d;display:flex;align-items:center;gap:6px;">
+                            <i class="bi bi-arrow-counterclockwise" style="color:var(--primary);"></i> 30-Day Returns
+                        </div>
+                        <div style="font-size:12px;color:#6c757d;display:flex;align-items:center;gap:6px;">
+                            <i class="bi bi-shield-check" style="color:var(--primary);"></i> 2-Year Warranty
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if related_products %}
+        <div class="mt-5">
+            <h3 class="section-title">Related Products</h3>
+            <div class="title-underline"></div>
+            <div class="row g-4 mt-2">
+                {% for rp in related_products %}
+                <div class="col-lg-3 col-md-4 col-6">
+                    <div class="product-card">
+                        <div class="img-wrapper">
+                            {% if rp.image_url %}
+                                <img src="{{ rp.image_url }}" alt="{{ rp.name }}" loading="lazy">
+                            {% elif rp.image %}
+                                <img src="{{ rp.image.url }}" alt="{{ rp.name }}" loading="lazy">
+                            {% else %}
+                                <div style="font-size:3.5rem;">
+                                    {% if rp.category.name == 'Headphones' %}🎧
+                                    {% elif rp.category.name == 'Smartphones' %}📱
+                                    {% elif rp.category.name == 'Laptops' %}💻
+                                    {% else %}📦{% endif %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="card-body">
+                            <div class="category-tag">{{ rp.category.name }}</div>
+                            <div class="product-name">{{ rp.name }}</div>
+                            <span class="price">${{ rp.price }}</span>
+                            <a href="{% url 'product_detail' rp.id %}" class="btn-add-cart">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}

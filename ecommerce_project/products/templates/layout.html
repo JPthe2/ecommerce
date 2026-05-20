@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}TechStore{% endblock %} | TechStore Pro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        :root {
+            --primary: #e74c3c;
+            --primary-dark: #c0392b;
+            --dark: #1a1a2e;
+            --dark-nav: #16213e;
+            --text-muted-custom: #6c757d;
+            --card-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            --card-hover-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            --transition: all 0.3s ease;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #f8f9fa;
+            color: #2d2d2d;
+        }
+
+        .top-bar {
+            background: var(--dark);
+            color: #adb5bd;
+            font-size: 12px;
+            padding: 6px 0;
+        }
+        .top-bar a { color: #adb5bd; text-decoration: none; }
+        .top-bar a:hover { color: white; }
+
+        .navbar-main {
+            background: var(--dark-nav);
+            padding: 0;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .navbar-brand-text {
+            font-size: 1.6rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            color: white !important;
+        }
+        .navbar-brand-text span { color: var(--primary); }
+        .nav-link-main {
+            color: #cdd6e3 !important;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 20px 16px !important;
+            transition: var(--transition);
+            border-bottom: 3px solid transparent;
+        }
+        .nav-link-main:hover, .nav-link-main.active {
+            color: white !important;
+            border-bottom-color: var(--primary);
+        }
+        .navbar-search input {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: white;
+            border-radius: 25px 0 0 25px;
+            padding: 8px 16px;
+            width: 220px;
+            font-size: 13px;
+        }
+        .navbar-search input::placeholder { color: rgba(255,255,255,0.4); }
+        .navbar-search input:focus {
+            background: rgba(255,255,255,0.12);
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: none;
+        }
+        .navbar-search .btn-search {
+            background: var(--primary);
+            border: none;
+            color: white;
+            border-radius: 0 25px 25px 0;
+            padding: 8px 16px;
+            font-size: 13px;
+        }
+        .cart-icon-wrapper {
+            position: relative;
+            color: white;
+            text-decoration: none;
+            margin-left: 12px;
+        }
+        .cart-badge {
+            position: absolute;
+            top: -6px;
+            right: -8px;
+            background: var(--primary);
+            color: white;
+            font-size: 10px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .feature-bar {
+            background: white;
+            border-bottom: 1px solid #e9ecef;
+            padding: 12px 0;
+        }
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+        }
+        .feature-item i {
+            font-size: 20px;
+            color: var(--primary);
+        }
+        .feature-item strong {
+            display: block;
+            font-size: 13px;
+            color: #2d2d2d;
+        }
+        .feature-item span { color: #6c757d; font-size: 11px; }
+
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: var(--transition);
+            box-shadow: var(--card-shadow);
+            border: 1px solid #f0f0f0;
+            height: 100%;
+            position: relative;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-hover-shadow);
+        }
+        .product-card .img-wrapper {
+            background: transparent;
+            padding: 20px;
+            text-align: center;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .product-card .img-wrapper img {
+            max-height: 160px;
+            object-fit: contain;
+            transition: var(--transition);
+            mix-blend-mode: multiply;
+            background: transparent;
+        }
+        .product-card:hover .img-wrapper img {
+            transform: scale(1.05);
+        }
+        .product-card .card-body { padding: 16px; }
+        .product-card .category-tag {
+            font-size: 11px;
+            color: var(--primary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+        .product-card .product-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 8px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .product-card .price {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        .product-card .original-price {
+            font-size: 13px;
+            color: #adb5bd;
+            text-decoration: line-through;
+            margin-left: 6px;
+        }
+        .product-card .btn-add-cart {
+            background: var(--dark);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            width: 100%;
+            transition: var(--transition);
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            margin-top: 12px;
+        }
+        .product-card .btn-add-cart:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .badge-product {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            z-index: 2;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .badge-new { background: #27ae60; color: white; }
+        .badge-sale { background: var(--primary); color: white; }
+        .badge-hot { background: #f39c12; color: white; }
+        .badge-featured { background: var(--dark); color: white; }
+
+        .btn-wishlist {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 14px;
+            color: #adb5bd;
+            text-decoration: none;
+            z-index: 2;
+        }
+        .btn-wishlist:hover {
+            background: #ffe0e0;
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .section-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 4px;
+        }
+        .section-subtitle {
+            color: #6c757d;
+            font-size: 14px;
+            margin-bottom: 32px;
+        }
+        .title-underline {
+            width: 50px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 2px;
+            margin: 8px 0 16px;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 480px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-badge {
+            background: rgba(231,76,60,0.2);
+            color: #e74c3c;
+            border: 1px solid rgba(231,76,60,0.3);
+            border-radius: 20px;
+            padding: 4px 14px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: inline-block;
+            margin-bottom: 16px;
+        }
+        .hero-section h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: white;
+            line-height: 1.1;
+            margin-bottom: 16px;
+        }
+        .hero-section h1 .highlight {
+            color: var(--primary);
+            display: block;
+        }
+        .hero-price-badge {
+            background: var(--primary);
+            color: white;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 24px;
+        }
+        .btn-hero-primary {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 14px 32px;
+            font-weight: 600;
+            font-size: 15px;
+            text-decoration: none;
+            display: inline-block;
+            transition: var(--transition);
+        }
+        .btn-hero-primary:hover {
+            background: var(--primary-dark);
+            color: white;
+            transform: translateY(-2px);
+        }
+        .btn-hero-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 30px;
+            padding: 12px 28px;
+            font-weight: 500;
+            font-size: 15px;
+            text-decoration: none;
+            display: inline-block;
+            transition: var(--transition);
+            margin-left: 12px;
+        }
+        .btn-hero-secondary:hover {
+            border-color: white;
+            color: white;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .category-card {
+            border-radius: 12px;
+            overflow: hidden;
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+            box-shadow: var(--card-shadow);
+        }
+        .category-card:hover { transform: translateY(-4px); box-shadow: var(--card-hover-shadow); }
+        .category-card.cat-black { background: #1a1a2e; }
+        .category-card.cat-yellow { background: #f39c12; }
+        .category-card.cat-red { background: var(--primary); }
+        .category-card.cat-blue { background: #2980b9; }
+        .category-card.cat-green { background: #27ae60; }
+        .category-card.cat-purple { background: #8e44ad; }
+        .category-card .cat-content { padding: 20px; }
+        .category-card .cat-label {
+            font-size: 10px;
+            color: rgba(255,255,255,0.7);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+        .category-card .cat-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: white;
+            line-height: 1.2;
+            margin: 4px 0 12px;
+        }
+        .category-card .btn-cat {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.4);
+            border-radius: 20px;
+            padding: 5px 16px;
+            font-size: 12px;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-block;
+            transition: var(--transition);
+        }
+        .category-card .btn-cat:hover { background: rgba(255,255,255,0.35); }
+
+        .sale-banner {
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+        }
+        .sale-banner.red-bg {
+            background: linear-gradient(135deg, var(--primary) 0%, #c0392b 100%);
+        }
+        .sale-banner.green-bg {
+            background: linear-gradient(135deg, #27ae60 0%, #1e8449 100%);
+        }
+        .sale-banner .sale-content { padding: 32px; }
+        .sale-banner .off-badge {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 12px;
+            border-radius: 12px;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        .sale-banner h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: white;
+            line-height: 1.1;
+            margin-bottom: 6px;
+        }
+        .sale-banner p {
+            color: rgba(255,255,255,0.8);
+            font-size: 13px;
+            margin-bottom: 16px;
+        }
+        .btn-sale {
+            background: white;
+            color: var(--dark);
+            border-radius: 20px;
+            padding: 8px 24px;
+            font-weight: 600;
+            font-size: 13px;
+            text-decoration: none;
+            display: inline-block;
+            transition: var(--transition);
+        }
+        .btn-sale:hover { background: var(--dark); color: white; }
+
+        .stock-bar { height: 4px; background: #f0f0f0; border-radius: 2px; margin: 6px 0; }
+        .stock-fill { height: 100%; border-radius: 2px; background: #27ae60; }
+        .stock-text { font-size: 11px; color: #6c757d; }
+
+        .footer-main {
+            background: var(--dark);
+            color: #adb5bd;
+            padding: 60px 0 0;
+        }
+        .footer-main h5 {
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+        .footer-main a {
+            color: #adb5bd;
+            text-decoration: none;
+            font-size: 14px;
+            transition: var(--transition);
+            display: block;
+            margin-bottom: 10px;
+        }
+        .footer-main a:hover { color: var(--primary); padding-left: 4px; }
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: 800;
+            color: white;
+        }
+        .footer-logo span { color: var(--primary); }
+        .footer-newsletter input {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: white;
+            border-radius: 4px 0 0 4px;
+            padding: 10px 14px;
+            width: 200px;
+            font-size: 13px;
+        }
+        .footer-newsletter input::placeholder { color: rgba(255,255,255,0.4); }
+        .footer-newsletter .btn-subscribe {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            padding: 10px 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .footer-bottom {
+            background: rgba(0,0,0,0.3);
+            padding: 16px 0;
+            margin-top: 40px;
+            font-size: 12px;
+        }
+        .social-links a {
+            color: #adb5bd;
+            margin-right: 12px;
+            font-size: 18px;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 0;
+        }
+        .social-links a:hover { color: var(--primary); }
+        .brand-logos {
+            opacity: 0.3;
+            filter: grayscale(100%);
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #666;
+        }
+
+        .auth-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            padding: 40px;
+        }
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(231,76,60,0.15);
+        }
+        .btn-primary-custom {
+            background: var(--primary);
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            font-weight: 600;
+            font-size: 15px;
+            width: 100%;
+            color: white;
+            transition: var(--transition);
+        }
+        .btn-primary-custom:hover { background: var(--primary-dark); color: white; }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, #e9ecef, transparent);
+            margin: 40px 0;
+        }
+        .alert-custom {
+            background: #fff3f3;
+            border: 1px solid #ffd0d0;
+            border-left: 4px solid var(--primary);
+            border-radius: 8px;
+            color: #c0392b;
+            font-size: 14px;
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+<div class="top-bar d-none d-md-block">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <i class="bi bi-telephone-fill me-1"></i> +1 800 TECH-PRO &nbsp;&nbsp;
+                <i class="bi bi-envelope-fill me-1"></i> support@techstore.pro
+            </div>
+            <div>
+                <i class="bi bi-truck me-1"></i> Free shipping on orders over $99 &nbsp;&nbsp;
+                <i class="bi bi-shield-check me-1"></i> 2-year warranty
+            </div>
+        </div>
+    </div>
+</div>
+
+<nav class="navbar-main">
+    <div class="container">
+        <div class="d-flex align-items-center justify-content-between py-2 w-100">
+            <a href="{% url 'product_list' %}" class="navbar-brand-text text-decoration-none me-4">
+                TECH<span>STORE</span>
+            </a>
+            <div class="d-none d-lg-flex align-items-center flex-grow-1">
+                <a href="{% url 'product_list' %}" class="nav-link-main {% if request.resolver_match.url_name == 'product_list' %}active{% endif %}">Home</a>
+                <a href="{% url 'product_list' %}" class="nav-link-main">Shop</a>
+                <a href="{% url 'category_list' %}" class="nav-link-main {% if request.resolver_match.url_name == 'category_list' %}active{% endif %}">Categories</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'profile' %}" class="nav-link-main">My Account</a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="nav-link-main">Sign In</a>
+                {% endif %}
+                <a href="{% url 'cart_detail' %}" class="nav-link-main {% if request.resolver_match.url_name == 'cart_detail' %}active{% endif %}">
+                    Cart {% if cart_item_count > 0 %}<span class="badge bg-danger ms-1">{{ cart_item_count }}</span>{% endif %}
+                </a>
+            </div>
+            <div class="d-none d-md-flex align-items-center">
+                <form class="navbar-search d-flex" method="get" action="{% url 'product_list' %}">
+                    <input type="text" name="q" placeholder="Search products..." value="{{ request.GET.q }}">
+                    <button type="submit" class="btn-search"><i class="bi bi-search"></i></button>
+                </form>
+                {% if user.is_authenticated %}
+                    <div class="ms-3 d-flex align-items-center gap-2">
+                        <span style="color: rgba(255,255,255,0.6); font-size: 13px;">{{ user.username }}</span>
+                        <form method="post" action="{% url 'logout' %}" style="margin:0">
+                            {% csrf_token %}
+                            <button type="submit" style="background:none;border:none;color:#e74c3c;font-size:13px;font-weight:600;cursor:pointer;">Logout</button>
+                        </form>
+                    </div>
+                {% else %}
+                    <a href="{% url 'signup' %}" class="ms-3" style="background:var(--primary);color:white;border-radius:20px;padding:8px 18px;font-size:13px;font-weight:600;text-decoration:none;">Get Started</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="feature-bar d-none d-lg-block">
+    <div class="container">
+        <div class="row">
+            <div class="col-3">
+                <div class="feature-item">
+                    <i class="bi bi-truck"></i>
+                    <div><strong>Free Shipping</strong><span>On orders over $99</span></div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="feature-item">
+                    <i class="bi bi-arrow-counterclockwise"></i>
+                    <div><strong>Money Guarantee</strong><span>30-day return policy</span></div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="feature-item">
+                    <i class="bi bi-headset"></i>
+                    <div><strong>Online Support 24/7</strong><span>Technical assistance</span></div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="feature-item">
+                    <i class="bi bi-shield-lock"></i>
+                    <div><strong>Secure Payment</strong><span>100% protected</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if messages %}
+<div class="container mt-3">
+    {% for message in messages %}
+    <div class="alert alert-custom alert-dismissible fade show">
+        <i class="bi bi-info-circle me-2"></i>{{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% block content %}{% endblock %}
+
+<div class="py-4" style="background: white; border-top: 1px solid #f0f0f0; border-bottom: 1px solid #f0f0f0;">
+    <div class="container">
+        <div class="d-flex justify-content-around align-items-center flex-wrap gap-3">
+            <span class="brand-logos" style="font-size:1.2rem;">SAMSUNG</span>
+            <span class="brand-logos" style="font-size:1.2rem;">SONY</span>
+            <span class="brand-logos" style="font-size:1.2rem;">APPLE</span>
+            <span class="brand-logos" style="font-size:1.2rem;">BEATS</span>
+            <span class="brand-logos" style="font-size:1.2rem;">LG</span>
+            <span class="brand-logos" style="font-size:1.2rem;">JBL</span>
+        </div>
+    </div>
+</div>
+
+<footer class="footer-main">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-4">
+                <div class="footer-logo mb-3">TECH<span>STORE</span></div>
+                <p style="font-size:14px; color:#adb5bd; line-height:1.7;">Your premier destination for cutting-edge electronics and technology. We bring you the latest gadgets at the best prices with exceptional service.</p>
+                <div class="social-links mt-3">
+                    <a href="#"><i class="bi bi-facebook"></i></a>
+                    <a href="#"><i class="bi bi-twitter-x"></i></a>
+                    <a href="#"><i class="bi bi-instagram"></i></a>
+                    <a href="#"><i class="bi bi-youtube"></i></a>
+                    <a href="#"><i class="bi bi-tiktok"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-2 col-6">
+                <h5>Quick Links</h5>
+                <a href="{% url 'product_list' %}">Home</a>
+                <a href="{% url 'product_list' %}">Shop All</a>
+                <a href="{% url 'category_list' %}">Categories</a>
+                <a href="{% url 'login' %}">Sign In</a>
+                <a href="{% url 'signup' %}">Register</a>
+            </div>
+            <div class="col-lg-2 col-6">
+                <h5>Support</h5>
+                <a href="#">FAQ</a>
+                <a href="#">Shipping Info</a>
+                <a href="#">Returns</a>
+                <a href="#">Track Order</a>
+                <a href="#">Contact Us</a>
+            </div>
+            <div class="col-lg-4">
+                <h5>Subscribe To Our Email</h5>
+                <p style="font-size:13px; color:#adb5bd; margin-bottom:16px;">Get the latest news, updates, and exclusive deals delivered to your inbox.</p>
+                <div class="footer-newsletter d-flex">
+                    <input type="email" placeholder="Your email address">
+                    <button class="btn-subscribe">Subscribe</button>
+                </div>
+                <div class="mt-3" style="font-size:12px; color:#6c757d;">
+                    <i class="bi bi-shield-check me-1"></i> We respect your privacy. No spam.
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <div class="container d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <span>&copy; 2026 TechStore Pro. All rights reserved. Built with Django & Bootstrap.</span>
+            <div>
+                <i class="bi bi-credit-card-2-front me-2" style="font-size:20px;"></i>
+                <i class="bi bi-paypal me-2" style="font-size:20px;"></i>
+                <i class="bi bi-apple me-2" style="font-size:20px;"></i>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+// 3D Tilt Effect for product cards
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.product-card').forEach(function(card) {
+    card.addEventListener('mousemove', function(e) {
+      const rect = card.getBoundingClientRect()
+      const x = e.clientX - rect.left
+      const y = e.clientY - rect.top
+      const centerX = rect.width / 2
+      const centerY = rect.height / 2
+      const rotateX = (y - centerY) / centerY * -10
+      const rotateY = (x - centerX) / centerX * 10
+      card.style.transform = 'perspective(1000px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg) translateY(-5px)'
+      card.style.boxShadow = '0 8px 30px rgba(0,0,0,0.15), ' +
+        'inset 0 0 30px rgba(' + (x/rect.width*255) + ', ' + (y/rect.height*255) + ', 255, 0.05)'
+    })
+    card.addEventListener('mouseleave', function() {
+      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)'
+      card.style.boxShadow = '0 2px 15px rgba(0,0,0,0.08)'
+    })
+  })
+})
+</script>
+
+{% block extra_js %}{% endblock %}
+</body>
+</html>

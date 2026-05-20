@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+dist/
+build/
+
+# Virtual environment
+myenv/
+env/
+venv/
+
+# Database
+*.sqlite3
+*.db
+
+# Django
+staticfiles/
+media/
+
+# Node
+node_modules/
+frontend/node_modules/
+
+# React build
+react_build/
+
+# Environment variables
+.env
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+server_error.txt
+server_output.txt

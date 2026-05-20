@@ -1,0 +1,198 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block title %}Home{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'assets/index-Ce-nt4lo.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<!-- REACT HERO -->
+<div id="hero-root"></div>
+
+<!-- CATEGORY CARDS -->
+<section class="py-5" style="background:#f8f9fa;">
+    <div class="container">
+        <div class="row g-3">
+            <div class="col-md-3">
+                <div class="category-card cat-black">
+                    <div class="cat-content">
+                        <div class="cat-label">Best Deals</div>
+                        <div class="cat-name">EAR<br>PHONES</div>
+                        <a href="{% url 'product_list' %}?category=Headphones" class="btn-cat">Browse &rarr;</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="category-card cat-yellow">
+                    <div class="cat-content">
+                        <div class="cat-label">New Arrival</div>
+                        <div class="cat-name">WEAR<br>ABLES</div>
+                        <a href="{% url 'product_list' %}?category=Wearables" class="btn-cat">Browse &rarr;</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="category-card cat-red">
+                    <div class="cat-content">
+                        <div class="cat-label">Trend</div>
+                        <div class="cat-name">DEVICES<br>LAPTOP</div>
+                        <a href="{% url 'product_list' %}?category=Laptops" class="btn-cat">Browse &rarr;</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="category-card cat-black" style="background:#c0392b;">
+                    <div class="cat-content">
+                        <div class="cat-label">Hot</div>
+                        <div class="cat-name">Gaming<br>CONSOLE</div>
+                        <a href="{% url 'product_list' %}?category=Gaming" class="btn-cat">Browse &rarr;</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="category-card cat-green">
+                    <div class="cat-content">
+                        <div class="cat-label">New</div>
+                        <div class="cat-name">Game<br>OCULUS</div>
+                        <a href="{% url 'product_list' %}?category=VR+%26+AR" class="btn-cat">Browse &rarr;</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="category-card cat-blue">
+                    <div class="cat-content">
+                        <div class="cat-label">New</div>
+                        <div class="cat-name">Amazon<br>SPEAKER</div>
+                        <a href="{% url 'product_list' %}?category=Speakers" class="btn-cat">Browse &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SALE BANNERS -->
+<section class="py-4" style="background:white;">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-6">
+                <div class="sale-banner red-bg">
+                    <div class="sale-content">
+                        <div class="off-badge">🔥 30% OFF Selected Items</div>
+                        <h2>FIND YOUR<br>SMILE</h2>
+                        <p>Compare prices, save on top brands. Limited time offer on headphones and speakers.</p>
+                        <a href="{% url 'product_list' %}" class="btn-sale">Shop Now &rarr;</a>
+                    </div>
+                    <div style="position:absolute;right:20px;bottom:-10px;font-size:8rem;opacity:0.15;">🎧</div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="sale-banner green-bg">
+                    <div class="sale-content">
+                        <div class="off-badge">⚡ Flash Sale</div>
+                        <h2>HAPPY<br>HOURS</h2>
+                        <p>Get exclusive deals on smartwatches and wearables. Today only, don't miss out.</p>
+                        <a href="{% url 'product_list' %}?category=Wearables" class="btn-sale">Shop Now &rarr;</a>
+                    </div>
+                    <div style="position:absolute;right:20px;bottom:-10px;font-size:8rem;opacity:0.15;">⌚</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FEATURED SHOWCASE (REACT) -->
+<div id="featured-showcase-root"></div>
+
+<!-- ALL PRODUCTS WITH FILTER -->
+<section class="py-5" style="background:white;">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-start flex-wrap gap-3 mb-4">
+            <div>
+                <h2 class="section-title">All Products</h2>
+                <div class="title-underline"></div>
+                <p class="section-subtitle mb-0">
+                    {% if search_query %}Results for "{{ search_query }}" &mdash; {% endif %}
+                    {{ total_products }} product{{ total_products|pluralize }} available
+                </p>
+            </div>
+            <form method="get" class="d-flex gap-2 flex-wrap">
+                {% if search_query %}<input type="hidden" name="q" value="{{ search_query }}">{% endif %}
+                <select name="category" class="form-select form-select-sm" style="width:auto;" onchange="this.form.submit()">
+                    <option value="">All Categories</option>
+                    {% for cat in categories %}
+                        <option value="{{ cat.name }}" {% if category_filter == cat.name %}selected{% endif %}>{{ cat.name }}</option>
+                    {% endfor %}
+                </select>
+                <select name="sort" class="form-select form-select-sm" style="width:auto;" onchange="this.form.submit()">
+                    <option value="">Sort by</option>
+                    <option value="price_asc" {% if sort_by == 'price_asc' %}selected{% endif %}>Price: Low to High</option>
+                    <option value="price_desc" {% if sort_by == 'price_desc' %}selected{% endif %}>Price: High to Low</option>
+                    <option value="newest" {% if sort_by == 'newest' %}selected{% endif %}>Newest First</option>
+                </select>
+            </form>
+        </div>
+
+        <div class="row g-4">
+            {% for product in products %}
+            <div class="col-lg-3 col-md-4 col-6">
+                <div class="product-card">
+                    {% if product.badge %}
+                        <span class="badge-product badge-{{ product.badge }}">{{ product.badge }}</span>
+                    {% endif %}
+                    <a href="#" class="btn-wishlist"><i class="bi bi-heart"></i></a>
+                    <div class="img-wrapper">
+                        {% if product.image_url %}
+                            <img src="{{ product.image_url }}" alt="{{ product.name }}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                            <div style="display:none;font-size:4rem;">
+                        {% elif product.image %}
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}" loading="lazy">
+                        {% else %}
+                            <div style="font-size:4rem;">
+                        {% endif %}
+                                {% if product.category.name == 'Headphones' %}🎧
+                                {% elif product.category.name == 'Smartphones' %}📱
+                                {% elif product.category.name == 'Laptops' %}💻
+                                {% elif product.category.name == 'Gaming' %}🎮
+                                {% elif product.category.name == 'Wearables' %}⌚
+                                {% elif product.category.name == 'Speakers' %}🔊
+                                {% elif product.category.name == 'VR & AR' %}🥽
+                                {% elif product.category.name == 'Tablets' %}📱
+                                {% else %}📦{% endif %}
+                            </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="category-tag">{{ product.category.name }}</div>
+                        <div class="product-name">{{ product.name }}</div>
+                        <div class="d-flex align-items-center">
+                            <span class="price">${{ product.price }}</span>
+                            {% if product.original_price %}
+                                <span class="original-price">${{ product.original_price }}</span>
+                                <span style="font-size:11px;color:#27ae60;font-weight:700;margin-left:6px;">-{{ product.discount_percentage }}%</span>
+                            {% endif %}
+                        </div>
+                        <a href="{% url 'product_detail' product.id %}" class="btn-add-cart">
+                            <i class="bi bi-eye me-1"></i> View Details
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-5">
+                <div style="font-size:5rem;">🔍</div>
+                <h4 style="color:#6c757d;">No products found</h4>
+                <p style="color:#adb5bd;">Try a different search or browse all categories.</p>
+                <a href="{% url 'product_list' %}" class="btn-hero-primary" style="display:inline-block;">Clear Filters</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script type="module" src="{% static 'assets/index-BG5ARn0b.js' %}"></script>
+{% endblock %}
