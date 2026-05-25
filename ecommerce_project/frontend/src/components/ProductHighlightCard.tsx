@@ -48,30 +48,29 @@ export const ProductHighlightCard = React.forwardRef<HTMLDivElement, ProductHigh
           transformStyle: 'preserve-3d',
         }}
         className={cn(
-          'relative h-[350px] w-[350px] rounded-2xl bg-zinc-900 shadow-lg transition-shadow duration-300 hover:shadow-2xl',
+          'relative h-[350px] w-[350px] rounded-2xl bg-white border border-[#e8e8ed] transition-all duration-300 hover:border-[#0071e3]',
           className,
         )}
       >
-        <div style={{ transform: 'translateZ(20px)', transformStyle: 'preserve-3d' }} className="absolute inset-4 rounded-xl bg-white/5 shadow-inner">
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
+        <div style={{ transform: 'translateZ(20px)', transformStyle: 'preserve-3d' }} className="absolute inset-4 rounded-xl bg-[#fafafa] border border-[#e8e8ed]">
 
           <motion.div
             className="pointer-events-none absolute -inset-px rounded-xl opacity-0"
             style={{
               opacity: glowOpacity,
-              background: `radial-gradient(80px at ${glowX}% ${glowY}%, rgba(220, 38, 38, 0.4), transparent 40%)`,
+              background: `radial-gradient(80px at ${glowX}% ${glowY}%, rgba(0, 113, 227, 0.15), transparent 40%)`,
             }}
           />
 
           <div className="relative z-10 flex h-full flex-col justify-between p-6">
-            <div className="flex items-center space-x-2 text-zinc-300">
+            <div className="flex items-center space-x-2 text-[#86868b]">
               {categoryIcon}
               <span className="text-sm font-medium">{category}</span>
             </div>
 
-            <div className="text-zinc-100">
-              <h2 className="text-4xl font-bold tracking-tight">{title}</h2>
-              <p className="mt-2 max-w-[60%] text-xs text-zinc-400">
+            <div className="text-[#1d1d1f]">
+              <h2 className="text-4xl font-bold tracking-tight" style={{letterSpacing:'-0.02em'}}>{title}</h2>
+              <p className="mt-2 max-w-[60%] text-xs text-[#86868b]">
                 {description}
               </p>
             </div>

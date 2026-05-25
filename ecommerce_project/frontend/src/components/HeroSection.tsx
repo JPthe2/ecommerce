@@ -12,8 +12,8 @@ import {
 import type { ProductId, HeroProduct } from '../types'
 import { HERO_PRODUCTS } from '../data'
 
-const spring = { type: 'spring' as const, stiffness: 100, damping: 20 }
-const springFast = { type: 'spring' as const, stiffness: 260, damping: 20 }
+const spring = { type: 'spring' as const, stiffness: 100, damping: 30 }
+const springFast = { type: 'spring' as const, stiffness: 260, damping: 25 }
 
 const ANIMATIONS = {
   container: {
@@ -57,8 +57,8 @@ function BackgroundGradient({ isFirst }: { isFirst: boolean }) {
       <motion.div
         animate={{
           background: isFirst
-            ? 'radial-gradient(circle at 0% 50%, rgba(59, 130, 246, 0.15), transparent 50%)'
-            : 'radial-gradient(circle at 100% 50%, rgba(16, 185, 129, 0.15), transparent 50%)',
+            ? 'radial-gradient(circle at 0% 50%, rgba(0, 113, 227, 0.12), transparent 50%)'
+            : 'radial-gradient(circle at 100% 50%, rgba(0, 113, 227, 0.12), transparent 50%)',
         }}
         transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
         className="absolute inset-0"
@@ -105,7 +105,7 @@ function ProductVisual({ data, isFirst }: { data: HeroProduct; isFirst: boolean 
         layout="position"
         className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap"
       >
-        <div className="flex items-center gap-2 text-xs uppercase tracking-widest text-zinc-500 bg-zinc-950/80 px-4 py-2 rounded-full backdrop-blur">
+        <div className="flex items-center gap-2 text-xs uppercase tracking-[0.08em] text-[#86868b] bg-[#1d1d1f]/80 px-4 py-2 rounded-full backdrop-blur border border-[#2d2d2f]">
           <span className={`h-1.5 w-1.5 rounded-full ${data.colors.glow} animate-pulse`} />
           {data.stats.connectionStatus}
         </div>
@@ -117,7 +117,7 @@ function ProductVisual({ data, isFirst }: { data: HeroProduct; isFirst: boolean 
 function ProductDetails({ data, isFirst }: { data: HeroProduct; isFirst: boolean }) {
   const alignClass = isFirst ? 'items-start text-left' : 'items-end text-right'
   const flexDirClass = isFirst ? 'flex-row' : 'flex-row-reverse'
-  const barColorClass = isFirst ? 'left-0 bg-blue-500' : 'right-0 bg-emerald-500'
+  const barColorClass = isFirst ? 'left-0 bg-[#0071e3]' : 'right-0 bg-[#0071e3]'
 
   return (
     <motion.div
@@ -127,17 +127,17 @@ function ProductDetails({ data, isFirst }: { data: HeroProduct; isFirst: boolean
       exit="exit"
       className={`flex flex-col ${alignClass}`}
     >
-      <motion.h2 variants={ANIMATIONS.item} className="text-sm font-bold uppercase tracking-[0.2em] text-zinc-500 mb-2">
+      <motion.h2 variants={ANIMATIONS.item} className="text-sm font-medium uppercase tracking-[0.1em] text-[#86868b] mb-2">
         {data.label} {isFirst ? 'Pro' : '15 Pro Max'}
       </motion.h2>
-      <motion.h1 variants={ANIMATIONS.item} className="text-4xl md:text-5xl font-bold tracking-tight mb-2 text-transparent bg-clip-text bg-gradient-to-b from-white to-zinc-500">
+      <motion.h1 variants={ANIMATIONS.item} className="text-4xl md:text-5xl font-bold tracking-tight mb-3 text-[#f5f5f7]" style={{letterSpacing:'-0.02em'}}>
         {data.title}
       </motion.h1>
-      <motion.p variants={ANIMATIONS.item} className={`text-zinc-400 mb-8 max-w-sm leading-relaxed ${isFirst ? 'mr-auto' : 'ml-auto'}`}>
+      <motion.p variants={ANIMATIONS.item} className={`text-[#86868b] mb-10 max-w-sm leading-relaxed font-light ${isFirst ? 'mr-auto' : 'ml-auto'}`} style={{lineHeight:'1.6'}}>
         {data.description}
       </motion.p>
 
-      <motion.div variants={ANIMATIONS.item} className="w-full space-y-6 bg-zinc-900/40 p-6 rounded-2xl border border-white/5 backdrop-blur-sm">
+      <motion.div variants={ANIMATIONS.item} className="w-full space-y-6 bg-[#1d1d1f]/60 p-6 rounded-2xl border border-[#2d2d2f]">
         {data.features.map((feature, idx) => {
           const IconComp = iconMap[feature.icon as keyof typeof iconMap]
           return (
@@ -187,7 +187,7 @@ function Switcher({
 
   return (
     <div className="fixed bottom-12 inset-x-0 flex justify-center z-50 pointer-events-none">
-      <motion.div layout className="pointer-events-auto flex items-center gap-1 p-1.5 rounded-full bg-zinc-900/80 backdrop-blur-2xl border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.6)] ring-1 ring-white/5">
+      <motion.div layout className="pointer-events-auto flex items-center gap-1 p-1.5 rounded-full bg-[#1d1d1f]/80 backdrop-blur-2xl border border-[#2d2d2f]">
         {options.map((opt) => (
           <motion.button
             key={opt.id}
@@ -198,11 +198,11 @@ function Switcher({
             {activeId === opt.id && (
               <motion.div
                 layoutId="island-surface"
-                className="absolute inset-0 rounded-full bg-gradient-to-b from-white/10 to-white/5 shadow-inner"
+                className="absolute inset-0 rounded-full bg-[#0071e3]/20"
                 transition={{ type: 'spring', stiffness: 220, damping: 22 }}
               />
             )}
-            <span className={`relative z-10 transition-colors duration-300 ${activeId === opt.id ? 'text-white' : 'text-zinc-500 hover:text-zinc-300'}`}>
+            <span className={`relative z-10 transition-colors duration-300 ${activeId === opt.id ? 'text-[#f5f5f7]' : 'text-[#86868b] hover:text-[#f5f5f7]'}`}>
               {opt.label}
             </span>
             {activeId === opt.id && (
@@ -225,7 +225,7 @@ export default function HeroSection() {
   const isFirst = activeId === 'airpods'
 
   return (
-    <div className="relative min-h-screen w-full bg-black text-zinc-100 overflow-hidden selection:bg-zinc-800 flex flex-col items-center justify-center">
+    <div className="relative min-h-screen w-full bg-[#1d1d1f] text-[#f5f5f7] overflow-hidden selection:bg-[#0071e3]/20 flex flex-col items-center justify-center">
       <BackgroundGradient isFirst={isFirst} />
       <main className="relative z-10 w-full px-6 py-8 flex flex-col justify-center max-w-7xl mx-auto">
         <motion.div

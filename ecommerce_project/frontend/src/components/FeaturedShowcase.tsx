@@ -42,13 +42,13 @@ const highlightProducts = [
 
 export default function FeaturedShowcase() {
   return (
-    <section className="py-16 bg-black">
+    <section className="py-20 bg-[#f5f5f7]">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-white">
-            Premium <span className="text-[#dc2626]">Picks</span>
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-[#1d1d1f]" style={{letterSpacing:'-0.02em'}}>
+            Premium <span className="text-[#0071e3]">Picks</span>
           </h2>
-          <p className="mt-2 text-zinc-400 text-sm">
+          <p className="mt-2 text-[#86868b] text-sm">
             Handpicked top electronics — the best of the best
           </p>
         </div>

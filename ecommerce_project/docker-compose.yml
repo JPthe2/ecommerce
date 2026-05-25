@@ -25,13 +25,13 @@ services:
     env_file:
       - .env
     ports:
-      - "8000:8000"
+      - "8020:8020"
     volumes:
       - .:/app
     depends_on:
       db:
         condition: service_healthy
-    command: python manage.py runserver 0.0.0.0:8000
+    command: python manage.py runserver 0.0.0.0:8020
 
 volumes:
   db_data:

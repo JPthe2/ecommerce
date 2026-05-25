@@ -2,20 +2,20 @@
 {% block title %}{{ product.name }}{% endblock %}
 
 {% block content %}
-<div class="py-5" style="background:#f8f9fa;">
+<div class="py-5" style="background:#f5f5f7;">
     <div class="container">
 
         <nav style="margin-bottom:24px;">
-            <span style="font-size:13px;color:#adb5bd;">
-                <a href="{% url 'product_list' %}" style="color:#adb5bd;text-decoration:none;">Home</a> /
-                <a href="{% url 'category_detail' product.category.id %}" style="color:#adb5bd;text-decoration:none;">{{ product.category.name }}</a> /
-                <span style="color:#2d2d2d;">{{ product.name }}</span>
+            <span style="font-size:13px;color:#86868b;">
+                <a href="{% url 'product_list' %}" style="color:#86868b;text-decoration:none;">Home</a> /
+                <a href="{% url 'category_detail' product.category.id %}" style="color:#86868b;text-decoration:none;">{{ product.category.name }}</a> /
+                <span style="color:#1d1d1f;">{{ product.name }}</span>
             </span>
         </nav>
 
         <div class="row g-5">
             <div class="col-lg-5">
-                <div style="background:white;border-radius:16px;padding:40px;text-align:center;box-shadow:var(--card-shadow);">
+                <div style="background:#fafafa;border-radius:16px;padding:40px;text-align:center;border:1px solid #e8e8ed;">
                     {% if product.image_url %}
                         <img src="{{ product.image_url }}" alt="{{ product.name }}" style="max-width:100%;max-height:350px;object-fit:contain;">
                     {% elif product.image %}
@@ -36,7 +36,7 @@
                 {% if product.image_url %}
                 <div class="d-flex gap-2 mt-3 justify-content-center">
                     {% for i in "123" %}
-                    <div style="width:70px;height:70px;background:white;border-radius:8px;border:2px solid {% if forloop.first %}var(--primary){% else %}#e9ecef{% endif %};overflow:hidden;">
+                    <div style="width:70px;height:70px;background:#f5f5f7;border-radius:12px;border:2px solid {% if forloop.first %}#0071e3{% else %}#e8e8ed{% endif %};overflow:hidden;">
                         <img src="{{ product.image_url }}" alt="" style="width:100%;height:100%;object-fit:cover;">
                     </div>
                     {% endfor %}
@@ -45,66 +45,66 @@
             </div>
 
             <div class="col-lg-7">
-                <div style="background:white;border-radius:16px;padding:36px;box-shadow:var(--card-shadow);">
+                <div style="background:#ffffff;border-radius:16px;padding:36px;border:1px solid #e8e8ed;">
                     <div class="d-flex align-items-center gap-2 mb-3">
-                        <span style="background:#fff3f3;color:var(--primary);font-size:12px;font-weight:600;padding:4px 12px;border-radius:20px;text-transform:uppercase;">{{ product.category.name }}</span>
+                        <span style="background:#f5f5f7;color:#0071e3;font-size:12px;font-weight:500;padding:4px 12px;border-radius:980px;text-transform:uppercase;letter-spacing:0.03em;">{{ product.category.name }}</span>
                         {% if product.stock > 0 %}
-                        <span style="background:#f0fff4;color:#27ae60;font-size:12px;font-weight:600;padding:4px 12px;border-radius:20px;">✓ In Stock</span>
+                        <span style="background:#f5f5f7;color:#1d1d1f;font-size:12px;font-weight:500;padding:4px 12px;border-radius:980px;">✓ In Stock</span>
                         {% else %}
-                        <span style="background:#fff3f3;color:var(--primary);font-size:12px;font-weight:600;padding:4px 12px;border-radius:20px;">Out of Stock</span>
+                        <span style="background:#f5f5f7;color:#86868b;font-size:12px;font-weight:500;padding:4px 12px;border-radius:980px;">Out of Stock</span>
                         {% endif %}
                     </div>
 
-                    <h1 style="font-size:1.8rem;font-weight:700;color:#1a1a2e;margin-bottom:12px;">{{ product.name }}</h1>
+                    <h1 style="font-size:1.8rem;font-weight:700;color:#1d1d1f;margin-bottom:12px;letter-spacing:-0.02em;">{{ product.name }}</h1>
 
                     <div class="d-flex align-items-center gap-2 mb-16" style="margin-bottom:16px;">
-                        <div style="color:#f39c12;font-size:16px;">★★★★★</div>
-                        <span style="font-size:13px;color:#6c757d;">(4.8/5 &mdash; 128 reviews)</span>
+                        <div style="color:#1d1d1f;font-size:16px;">★★★★★</div>
+                        <span style="font-size:13px;color:#86868b;">(4.8/5 &mdash; 128 reviews)</span>
                     </div>
 
-                    <div class="d-flex align-items-baseline gap-3 mb-4" style="padding:16px 0;border-top:1px solid #f0f0f0;border-bottom:1px solid #f0f0f0;">
-                        <span style="font-size:2.2rem;font-weight:800;color:var(--primary);">${{ product.price }}</span>
+                    <div class="d-flex align-items-baseline gap-3 mb-4" style="padding:16px 0;border-top:1px solid #e8e8ed;border-bottom:1px solid #e8e8ed;">
+                        <span style="font-size:2.2rem;font-weight:700;color:#1d1d1f;letter-spacing:-0.02em;">${{ product.price }}</span>
                         {% if product.original_price %}
-                        <span style="font-size:1.2rem;color:#adb5bd;text-decoration:line-through;">${{ product.original_price }}</span>
-                        <span style="background:#27ae60;color:white;font-size:12px;font-weight:700;padding:4px 10px;border-radius:20px;">Save {{ product.discount_percentage }}%</span>
+                        <span style="font-size:1.2rem;color:#86868b;text-decoration:line-through;">${{ product.original_price }}</span>
+                        <span style="background:#1d1d1f;color:#f5f5f7;font-size:12px;font-weight:500;padding:4px 10px;border-radius:980px;">Save {{ product.discount_percentage }}%</span>
                         {% endif %}
                     </div>
 
-                    <p style="color:#555;font-size:15px;line-height:1.8;margin-bottom:24px;">{{ product.description }}</p>
+                    <p style="color:#86868b;font-size:15px;line-height:1.8;margin-bottom:24px;font-weight:400;">{{ product.description }}</p>
 
                     <div class="row g-3 mb-24" style="margin-bottom:24px;">
                         <div class="col-6">
-                            <div style="background:#f8f9fa;border-radius:10px;padding:12px 16px;">
-                                <div style="font-size:11px;color:#adb5bd;text-transform:uppercase;letter-spacing:0.5px;">Category</div>
-                                <div style="font-weight:600;color:#1a1a2e;font-size:14px;">{{ product.category.name }}</div>
+                            <div style="background:#f5f5f7;border-radius:12px;padding:12px 16px;">
+                                <div style="font-size:11px;color:#86868b;text-transform:uppercase;letter-spacing:0.03em;">Category</div>
+                                <div style="font-weight:600;color:#1d1d1f;font-size:14px;">{{ product.category.name }}</div>
                             </div>
                         </div>
                         <div class="col-6">
-                            <div style="background:#f8f9fa;border-radius:10px;padding:12px 16px;">
-                                <div style="font-size:11px;color:#adb5bd;text-transform:uppercase;letter-spacing:0.5px;">Availability</div>
-                                <div style="font-weight:600;color:{% if product.stock > 0 %}#27ae60{% else %}var(--primary){% endif %};font-size:14px;">{{ product.stock }} units</div>
+                            <div style="background:#f5f5f7;border-radius:12px;padding:12px 16px;">
+                                <div style="font-size:11px;color:#86868b;text-transform:uppercase;letter-spacing:0.03em;">Availability</div>
+                                <div style="font-weight:600;color:{% if product.stock > 0 %}#1d1d1f{% else %}#86868b{% endif %};font-size:14px;">{{ product.stock }} units</div>
                             </div>
                         </div>
                     </div>
 
                     <div class="d-flex gap-3 flex-wrap">
-                        <a href="{% url 'cart_add' product.id %}" style="background:var(--primary);color:white;border-radius:8px;padding:14px 32px;font-weight:600;font-size:15px;text-decoration:none;display:inline-flex;align-items:center;gap:8px;">
+                        <a href="{% url 'cart_add' product.id %}" style="background:#0071e3;color:white;border:none;border-radius:980px;padding:14px 32px;font-weight:500;font-size:15px;text-decoration:none;display:inline-flex;align-items:center;gap:8px;letter-spacing:-0.01em;">
                             <i class="bi bi-bag-plus"></i> Add to Cart
                         </a>
-                        <a href="{% url 'product_list' %}" style="background:transparent;color:#1a1a2e;border:2px solid #e9ecef;border-radius:8px;padding:12px 28px;font-weight:600;font-size:15px;text-decoration:none;display:inline-flex;align-items:center;gap:8px;">
+                        <a href="{% url 'product_list' %}" style="background:transparent;color:#0071e3;border:1px solid #0071e3;border-radius:980px;padding:14px 28px;font-weight:500;font-size:15px;text-decoration:none;display:inline-flex;align-items:center;gap:8px;letter-spacing:-0.01em;">
                             <i class="bi bi-arrow-left"></i> Back to Shop
                         </a>
                     </div>
 
                     <div class="d-flex gap-4 mt-4 flex-wrap">
-                        <div style="font-size:12px;color:#6c757d;display:flex;align-items:center;gap:6px;">
-                            <i class="bi bi-truck" style="color:var(--primary);"></i> Free Shipping
+                        <div style="font-size:12px;color:#86868b;display:flex;align-items:center;gap:6px;">
+                            <i class="bi bi-truck" style="color:#0071e3;"></i> Free Shipping
                         </div>
-                        <div style="font-size:12px;color:#6c757d;display:flex;align-items:center;gap:6px;">
-                            <i class="bi bi-arrow-counterclockwise" style="color:var(--primary);"></i> 30-Day Returns
+                        <div style="font-size:12px;color:#86868b;display:flex;align-items:center;gap:6px;">
+                            <i class="bi bi-arrow-counterclockwise" style="color:#0071e3;"></i> 30-Day Returns
                         </div>
-                        <div style="font-size:12px;color:#6c757d;display:flex;align-items:center;gap:6px;">
-                            <i class="bi bi-shield-check" style="color:var(--primary);"></i> 2-Year Warranty
+                        <div style="font-size:12px;color:#86868b;display:flex;align-items:center;gap:6px;">
+                            <i class="bi bi-shield-check" style="color:#0071e3;"></i> 2-Year Warranty
                         </div>
                     </div>
                 </div>
